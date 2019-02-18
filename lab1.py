@@ -6,13 +6,19 @@ import scipy.optimize as so
 
 #1
 A = np.array([[1, 2, 3], [-2, 3, 0], [5, 1, 4]])
+A_matrix = np.matrix([[1, 2, 3], [-2, 3, 0], [5, 1, 4]])
+
 B = np.array([[1, 2, 3], [2, 4, 6], [3, 7, 2]])
+B_matrix = np.matrix([[1, 2, 3], [2, 4, 6], [3, 7, 2]])
+
 u = np.array([-4, 1, 1])
 v = np.array([3, 2, 10])
 
 #2
 C = np.random.random((100, 100))
 w = np.random.random((100, 1))
+
+C_matrix = np.matrix(C)
 
 #3
 print(A + B) # A + B
@@ -37,32 +43,14 @@ checkMatA = sio.loadmat('matrixes')["A"]
 print(checkMatA)
 
 #6
-sumResult = 0
-for i in range(A.shape[0]):
-    for j in range(A.shape[1]):
-        t = A[i, j]
-        if t > 0:
-            sumResult += t
-            
-for i in range(B.shape[0]):
-    for j in range(B.shape[1]):
-        t = B[i, j]
-        if t > 0:
-            sumResult += t
-
+sumResult = A[A > 0].sum() + B[B > 0].sum()
 print(sumResult)
 
 #7
-oneRow = []
-for row in A:
-    for el in row:
-        oneRow.append(el)
-        
-oneRowStep2 = []
-for i in range(1, len(oneRow), 2):
-    oneRowStep2.append(oneRow[i])
-    
+oneRow = A.reshape((1,A.shape[0]*A.shape[1]))
 print(oneRow)
+
+oneRowStep2 = oneRow[0, range(1, oneRow.shape[1], 2)]
 print(oneRowStep2)
 
 #8
@@ -74,7 +62,7 @@ pinvB = np.linalg.pinv(B)
 pinvC = np.linalg.pinv(C)
 
 print(A.dot(invA), '\n')
-print(B.dot(pinvB), '\n') #?
+print(B.dot(pinvB), '\n')
 print(C.dot(pinvC), '\n')
 
 #9
@@ -152,7 +140,5 @@ g2x0 = so.brentq(g2, -5, 5)
 
 print(g1x0)
 print(g2x0)
-
-
 
 
