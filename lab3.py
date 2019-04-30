@@ -15,14 +15,15 @@ Y = iris.target[:l] * 2 - 1
 
 X = np.concatenate([np.ones((X.shape[0],1)), X], axis=1)
 
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.45, random_state = 1)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.45)
 
+print(X_train)
 #print(X)
 #print(Y)
 
-w = np.zeros(3);
+w = np.random.normal(0.0, 1.0, 3);
 
-eps = 0.005
+eps = 0.001
 n = 0.01
 prev_w = w
 
@@ -40,8 +41,10 @@ while(dw >= eps):
 
 Y_predict = X.dot(w)
 
-colors_red = X[Y_predict > 0]
-colors_blue = X[Y_predict <= 0]
+#print(Y_predict)
+
+colors_red = X[Y > 0]
+colors_blue = X[Y <= 0]
 
 x2 = (-w[0] - w[1] * X) / w[2]
 

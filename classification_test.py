@@ -15,12 +15,12 @@ l = Y.shape[0]
 
 X = np.concatenate([np.ones((X.shape[0], 1)), X], axis=1)
 
-w = np.zeros(5)
+w = np.random.normal(0.0, 1.0, 5)
 
-n = 0.1
+n = 0.2
 for k in range(200):
-  sum = 0
   for j in range(5):
+    sum = 0
     for i in range(l):
       sum += Y[i] * X[i, j] * Sigmoid(-Y[i] * w.dot(X[i]))
     
