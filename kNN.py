@@ -8,8 +8,9 @@ def normalize(Data, investigated_x):
     
     Data = (Data - _min) / (_max - _min)
     investigated_x = (investigated_x - _min) / (_max - _min)
+    return (Data, investigated_x)
 
-def range(current_el, investigated_x):
+def rrange(current_el, investigated_x):
     return [current_el[13], dist(current_el[:13], investigated_x)]
 
 def dist(x, y):
@@ -28,18 +29,19 @@ undef_x = np.array([12.7, 3.87, 2.4, 23, 101, 2.83, 2.55, .43, 1.95, 2.57, 1.19,
 class_expect = 2
 
 #нормализация:
-normalize(X, undef_x) 
+X, undef_x = normalize(X, undef_x) 
 
 #добавляем данные о классах:
 X = np.concatenate((X, Y.T), axis = 1)
 
 #находим расстояние до каждой точки и сортируем
-ranges = [range(t, undef_x) for t in X]
+ranges = [rrange(t, undef_x) for t in X]
 ranges = np.array(sorted(ranges, key=lambda x: x[1]))
 
 #выбираем первые k классов и считаем вероятность
 first_k_elements = ranges[:k,:]
-probability = first_k_elements[first_k_elements[:,0] == class_expect].shape[0] / first_k_elements.shape[0]
+
+probability = first_k_elements[first_k_elements[:,0] == class_expect].shape[0] / k
 
 #Выводим ближайшие точки
 print(first_k_elements)
